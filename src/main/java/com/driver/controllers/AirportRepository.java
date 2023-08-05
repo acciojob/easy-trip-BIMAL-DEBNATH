@@ -109,7 +109,7 @@ public class AirportRepository {
         Flight ft=flightDB.getOrDefault(flightId, null);
         Passenger pt=passengerDB.getOrDefault(passengerId, null);
 
-        if(ft==null || pt==null)return "FAILURE"; //
+        if(ft==null || pt==null)return "FAILURE";
 
         pair curr=new pair(pt,ft);
 
@@ -124,7 +124,7 @@ public class AirportRepository {
            if(key.getFlight().getFlightId()==flightId)count++;
         }
 
-        if(count>=flightDB.get(flightId).getMaxCapacity())return "FAILURE"; //
+        if(count>=flightDB.get(flightId).getMaxCapacity())return "FAILURE";
 
         int revenue=calculateFlightFare(flightId);
         revenueDB.put(flightId,revenueDB.getOrDefault(flightId,0)+revenue);
@@ -151,7 +151,7 @@ public class AirportRepository {
 
     }
 
-    public String getAirportNameFromFlightId(Integer flightId) {  //
+    public String getAirportNameFromFlightId(Integer flightId) {
 
         if(!flightDB.containsKey(flightId))return null;
         Flight team=flightDB.get(flightId);
