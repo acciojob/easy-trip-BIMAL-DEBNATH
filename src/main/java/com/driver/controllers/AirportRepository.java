@@ -71,7 +71,7 @@ public class AirportRepository {
 
     public int getNumberOfPeopleOn(Date date, String airportName) {
 
-        int total=0;
+        int total = 0;
 
         for(pair key:bookingDb.keySet()){
             String from=String.valueOf(key.getFlight().getFromCity());
@@ -94,8 +94,8 @@ public class AirportRepository {
                 count++;
             }
         }
-        int price=3000 + (count*50);
-        return price;
+        int pt=3000 + (count*50);
+        return pt;
     }
 
     public String addPassenger(Passenger passenger) {
@@ -109,7 +109,7 @@ public class AirportRepository {
         Flight ft=flightDB.getOrDefault(flightId, null);
         Passenger pt=passengerDB.getOrDefault(passengerId, null);
 
-        if(ft==null || pt==null)return null;
+        if(ft==null || pt==null)return "FAILURE"; //
 
         pair curr=new pair(pt,ft);
 
@@ -124,7 +124,7 @@ public class AirportRepository {
            if(key.getFlight().getFlightId()==flightId)count++;
         }
 
-        if(count>flightDB.get(flightId).getMaxCapacity())return "FAILURE"; //
+        if(count>=flightDB.get(flightId).getMaxCapacity())return "FAILURE"; //
 
         int revenue=calculateFlightFare(flightId);
         revenueDB.put(flightId,revenueDB.getOrDefault(flightId,0)+revenue);
@@ -153,9 +153,10 @@ public class AirportRepository {
 
     public String getAirportNameFromFlightId(Integer flightId) {  //
 
-        Flight team=flightDB.getOrDefault(flightId, null);
+        if(!flightDB.containsKey(flightId))return null;
+        Flight team=flightDB.get(flightId);
 
-        if(team==null)return null;
+
 
         return String.valueOf(team.getFromCity());
     }
