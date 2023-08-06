@@ -14,7 +14,7 @@ public class AirportRepository {
     HashMap<String,Airport>airportDB=new HashMap<>();
     HashMap<Integer, Flight>flightDB=new HashMap<>();
     HashMap<Integer, Passenger>passengerDB=new HashMap<>();
-    HashMap<pair,Integer>bookingDb=new HashMap<>();
+    HashMap<String,Pair>bookingDb=new HashMap<>();
 
     HashMap<Integer,Integer>revenueDB=new HashMap<>();
 
@@ -74,11 +74,12 @@ public class AirportRepository {
 
         int total = 0;
 
-        for(pair key:bookingDb.keySet()){
-            String from=String.valueOf(key.getFlight().getFromCity());
-            String tow=String.valueOf(key.getFlight().getToCity());
+        for(String key:bookingDb.keySet()){
+            Pair temp=bookingDb.get(key);
+            String from=String.valueOf(temp.getFlight().getFromCity());
+            String tow=String.valueOf(temp.getFlight().getToCity());
             if(from.equals(airportName) || tow.equals(airportName)){
-                if(key.getFlight().getFlightDate()==date){
+                if(temp.getFlight().getFlightDate()==date){
                     total++;
                 }
             }
@@ -90,8 +91,9 @@ public class AirportRepository {
     public int calculateFlightFare(Integer flightId) {
 
         int count=0;
-        for(pair key:bookingDb.keySet()){
-            if(key.getFlight().getFlightId()==flightId){
+        for(String key:bookingDb.keySet()){
+            Pair tm=bookingDb.get(key);
+            if(tm.getFlight().getFlightId()==flightId){
                 count++;
             }
         }
@@ -112,24 +114,31 @@ public class AirportRepository {
 
         if(ft==null || pt==null)return "FAILURE";
 
-        pair curr=new pair(pt,ft);
+        int flightInt=flightId;
+        int passengerInt=passengerId;
+        String curr=String.valueOf(flightInt)+" "+String.valueOf(passengerInt);
+
+        //System.out.println(flightInt+"  "+passengerInt);
 
         if(bookingDb.containsKey(curr)){
             return "FAILURE";
         }
 
+        //System.out.println(bookingDb.getOrDefault(curr,0)+" revenue");
+        //System.out.println(flag);
+
         int count=0;
 
-        for(pair key:bookingDb.keySet()){
-
-           if(key.getFlight().getFlightId()==flightId)count++;
+        for(String key:bookingDb.keySet()){
+            Pair team=bookingDb.get(key);
+           if(team.getFlight().getFlightId()==flightId)count++;
         }
 
-        if(count>=flightDB.get(flightId).getMaxCapacity())return "FAILURE";
+        if(count>flightDB.get(flightId).getMaxCapacity())return "FAILURE";
 
         int revenue=calculateFlightFare(flightId);
         revenueDB.put(flightId,revenueDB.getOrDefault(flightId,0)+revenue);
-        bookingDb.put(curr, revenue);
+        bookingDb.put(curr, new Pair(passengerDB.get(passengerId),flightDB.get(flightId),revenue));
 
         return "SUCCESS";
 
@@ -139,12 +148,15 @@ public class AirportRepository {
     public String cancelATicket(Integer flightId, Integer passengerId) {
 
         if(!flightDB.containsKey(flightId) || !passengerDB.containsKey(passengerId))return "FAILURE";
-        pair curr=new pair(passengerDB.get(passengerId),flightDB.get(flightId));
+
+        int flightInt=flightId;
+        int passengerInt=passengerId;
+        String curr=String.valueOf(flightInt)+" "+String.valueOf(passengerInt);
 
         if(!bookingDb.containsKey(curr))return "FAILURE";
 
 
-        int revenue=bookingDb.get(curr);
+        int revenue=bookingDb.get(curr).getRevenueFromThisBooking();
         revenueDB.put(flightId,revenueDB.getOrDefault(flightId,0)-revenue);
 
           bookingDb.remove(curr);
@@ -174,8 +186,9 @@ public class AirportRepository {
 
         int count=0;
 
-        for(pair key:bookingDb.keySet()){
-            if(key.getPassenger().getPassengerId()==passengerId)count++;
+        for(String key:bookingDb.keySet()){
+            int team=bookingDb.get(key).getPassenger().getPassengerId();
+            if(team==passengerId)count++;
         }
         return count;
     }
