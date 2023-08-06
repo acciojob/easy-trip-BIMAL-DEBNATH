@@ -38,7 +38,7 @@ public class AirportRepository {
                 largest=airportDB.get(Ar).getNoOfTerminals();
                 name=airportDB.get(Ar).getAirportName();
             } else if (airportDB.get(Ar).getNoOfTerminals()==largest){
-                if(airportDB.get(Ar).getAirportName().compareTo(name)<0){
+                if(airportDB.get(Ar).getAirportName().compareTo(name)>0){
                     name=airportDB.get(Ar).getAirportName();
                     largest=airportDB.get(Ar).getNoOfTerminals();
                 }
@@ -155,11 +155,19 @@ public class AirportRepository {
     public String getAirportNameFromFlightId(Integer flightId) {
 
         if(!flightDB.containsKey(flightId))return null;
-        Flight team=flightDB.get(flightId);
+        String team=null;
+
+        City fromCityFlight=flightDB.get(flightId).getFromCity();
+        for(String st:airportDB.keySet()){
+
+            if (airportDB.get(st).getCity().equals(fromCityFlight)) {
+                team=airportDB.get(st).getAirportName();
+            }
+
+        }
 
 
-
-        return String.valueOf(team.getFromCity());
+        return team;
     }
 
     public int countOfBookingsDoneByPassengerAllCombined(Integer passengerId) {

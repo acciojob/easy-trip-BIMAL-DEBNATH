@@ -24,7 +24,7 @@ public class AirportController {
 
         //Simply add airport details to your database
         //Return a String message "SUCCESS"
-        if(airport.getAirportName()==null)return null;
+       // if(airport.getAirportName()==null)return null;
        return airportService.addAirport(airport);
     }
 
@@ -44,7 +44,7 @@ public class AirportController {
         //If there is no direct flight between 2 cities return -1.
 
        return airportService.getShortestDurationOfPossibleBetweenTwoCities(fromCity,toCity);
-    }
+    }  //
 
     @GetMapping("/get-number-of-people-on-airport-on/{date}")
     public int getNumberOfPeopleOn(@PathVariable("date") Date date,@RequestParam("airportName")String airportName){
@@ -53,7 +53,7 @@ public class AirportController {
         //This includes both the people who have come for a flight and who have landed on an airport after their flight
         //**
         return airportService.getNumberOfPeopleOn(date, airportName);
-    }
+    }  //
 
     @GetMapping("/calculate-fare")
     public int calculateFlightFare(@RequestParam("flightId")Integer flightId){
@@ -65,7 +65,7 @@ public class AirportController {
 
        return airportService.calculateFlightFare(flightId);
 
-    }
+    } //
 
 
     @PostMapping("/book-a-ticket")
@@ -77,7 +77,7 @@ public class AirportController {
         //else if you are able to book a ticket then return "SUCCESS"
    return airportService.bookATicket(flightId, passengerId);
 
-    }
+    } //
 
     @PutMapping("/cancel-a-ticket")
     public String cancelATicket(@RequestParam("flightId")Integer flightId,@RequestParam("passengerId")Integer passengerId){
@@ -88,7 +88,7 @@ public class AirportController {
         // and also cancel the ticket that passenger had booked earlier on the given flightId
        return airportService.cancelATicket(flightId, passengerId);
       // return null;
-    }
+    } //
 
 
     @GetMapping("/get-count-of-bookings-done-by-a-passenger/{passengerId}")
@@ -96,7 +96,7 @@ public class AirportController {
 
         //Tell the count of flight bookings done by a passenger: This will tell the total count of flight bookings done by a passenger :
        return airportService.countOfBookingsDoneByPassengerAllCombined(passengerId);
-    }
+    } //
 
     @PostMapping("/add-flight")
     public String addFlight(@RequestBody Flight flight){
@@ -117,7 +117,7 @@ public class AirportController {
     }
 
 
-    @GetMapping("/calculate-revenue-collected/{flightId}")
+    @GetMapping("/calculate-revenue-collected/{flightId}") //
     public int calculateRevenueOfAFlight(@PathVariable("flightId")Integer flightId){
 
         //Calculate the total revenue that a flight could have
