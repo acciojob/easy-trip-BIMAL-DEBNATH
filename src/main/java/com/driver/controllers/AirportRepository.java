@@ -114,10 +114,10 @@ public class AirportRepository {
 
     public String bookATicket(Integer flightId, Integer passengerId) {
 
-        Flight ft=flightDB.getOrDefault(flightId, null);
-        Passenger pt=passengerDB.getOrDefault(passengerId, null);
-
-        if(ft==null || pt==null)return "FAILURE";
+//        Flight ft=flightDB.getOrDefault(flightId, null);
+//        Passenger pt=passengerDB.getOrDefault(passengerId, null);
+//
+//        if(ft==null || pt==null)return "FAILURE";
 
         int flightInt=flightId;
         int passengerInt=passengerId;
@@ -129,8 +129,6 @@ public class AirportRepository {
             return "FAILURE";
         }
 
-        //System.out.println(bookingDb.getOrDefault(curr,0)+" revenue");
-        //System.out.println(flag);
 
         int count=0;
 
@@ -139,7 +137,7 @@ public class AirportRepository {
            if(team.getFlight().getFlightId()==flightId)count++;
         }
 
-        if(count>=flightDB.get(flightId).getMaxCapacity())return "FAILURE";
+        if(count>flightDB.get(flightId).getMaxCapacity())return "FAILURE";
 
         int revenue=calculateFlightFare(flightId);
         revenueDB.put(flightId,revenueDB.getOrDefault(flightId,0)+revenue);
@@ -152,7 +150,7 @@ public class AirportRepository {
 
     public String cancelATicket(Integer flightId, Integer passengerId) {
 
-        if(!flightDB.containsKey(flightId) || !passengerDB.containsKey(passengerId))return "FAILURE";
+//      if(!flightDB.containsKey(flightId) || !passengerDB.containsKey(passengerId))return "FAILURE";
 
         int flightInt=flightId;
         int passengerInt=passengerId;
