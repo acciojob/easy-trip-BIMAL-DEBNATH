@@ -27,7 +27,7 @@ public class AirportRepository {
     }
 
     public String getLargestAirportName() {
-        if(airportDB.size()==0)return null;
+        if(airportDB.isEmpty())return "";
 
         int largest=0;
         String name="";
@@ -74,11 +74,16 @@ public class AirportRepository {
 
         int total = 0;
 
+          City city=null;
+        for(String portId:airportDB.keySet()){
+            if(portId.equals(airportName)){
+                city=airportDB.get(portId).getCity();
+            }
+        }
+
         for(String key:bookingDb.keySet()){
             Pair temp=bookingDb.get(key);
-            String from=String.valueOf(temp.getFlight().getFromCity());
-            String tow=String.valueOf(temp.getFlight().getToCity());
-            if(from.equals(airportName) || tow.equals(airportName)){
+            if(temp.getFlight().getFromCity().equals(city) || temp.getFlight().getToCity().equals(city)){
                 if(temp.getFlight().getFlightDate()==date){
                     total++;
                 }
@@ -134,7 +139,7 @@ public class AirportRepository {
            if(team.getFlight().getFlightId()==flightId)count++;
         }
 
-        if(count>flightDB.get(flightId).getMaxCapacity())return "FAILURE";
+        if(count>=flightDB.get(flightId).getMaxCapacity())return "FAILURE";
 
         int revenue=calculateFlightFare(flightId);
         revenueDB.put(flightId,revenueDB.getOrDefault(flightId,0)+revenue);
@@ -167,19 +172,19 @@ public class AirportRepository {
     public String getAirportNameFromFlightId(Integer flightId) {
 
         if(!flightDB.containsKey(flightId))return null;
-        String team=null;
+
 
         City fromCityFlight=flightDB.get(flightId).getFromCity();
         for(String st:airportDB.keySet()){
 
             if (airportDB.get(st).getCity().equals(fromCityFlight)) {
-                team=airportDB.get(st).getAirportName();
+                return  airportDB.get(st).getAirportName();
             }
 
         }
 
 
-        return team;
+        return null;
     }
 
     public int countOfBookingsDoneByPassengerAllCombined(Integer passengerId) {

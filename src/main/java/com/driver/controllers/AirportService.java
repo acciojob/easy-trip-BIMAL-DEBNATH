@@ -58,7 +58,7 @@ public class AirportService {
 
 
     public String getAirportNameFromFlightId(Integer flightId) {
-        if(flightId==null)return null;
+        //if(flightId==null)return null;
         return airportRepository.getAirportNameFromFlightId(flightId);
     }
 
