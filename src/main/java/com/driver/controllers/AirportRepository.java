@@ -22,6 +22,7 @@ public class AirportRepository {
 
 
     public String addAirport(Airport airport) {
+        if(airport==null ||airport.getAirportName()==null)return null;
         airportDB.put(airport.getAirportName(), airport);
          return "SUCCESS";
     }
@@ -108,6 +109,7 @@ public class AirportRepository {
 
     public String addPassenger(Passenger passenger) {
 
+        if(passenger==null )return null;
         passengerDB.put(passenger.getPassengerId(),passenger);
         return "SUCCESS";
     }
@@ -134,7 +136,7 @@ public class AirportRepository {
            if(team.getFlight().getFlightId()==flightId)count++;
         }
 
-        if(count>flightDB.get(flightId).getMaxCapacity())return "FAILURE";
+        if(count>=flightDB.get(flightId).getMaxCapacity())return "FAILURE";
 
         int revenue=calculateFlightFare(flightId);
         revenueDB.put(flightId,revenueDB.getOrDefault(flightId,0)+revenue);
