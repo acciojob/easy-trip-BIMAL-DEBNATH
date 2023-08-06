@@ -114,10 +114,7 @@ public class AirportRepository {
 
     public String bookATicket(Integer flightId, Integer passengerId) {
 
-//        Flight ft=flightDB.getOrDefault(flightId, null);
-//        Passenger pt=passengerDB.getOrDefault(passengerId, null);
-//
-//        if(ft==null || pt==null)return "FAILURE";
+       if(flightId==null || passengerId==null) return "FAILURE";
 
         int flightInt=flightId;
         int passengerInt=passengerId;
