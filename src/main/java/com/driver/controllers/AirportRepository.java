@@ -21,8 +21,9 @@ public class AirportRepository {
 
 
 
-    public void addAirport(Airport airport) {
+    public String addAirport(Airport airport) {
         airportDB.put(airport.getAirportName(), airport);
+         return "SUCCESS";
     }
 
     public String getLargestAirportName() {

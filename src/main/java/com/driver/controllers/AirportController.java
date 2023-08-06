@@ -25,9 +25,7 @@ public class AirportController {
         //Simply add airport details to your database
         //Return a String message "SUCCESS"
         if(airport.getAirportName()==null)return null;
-        airportService.addAirport(airport);
-
-        return "SUCCESS";
+       return airportService.addAirport(airport);
     }
 
     @GetMapping("/get-largest-aiport")
