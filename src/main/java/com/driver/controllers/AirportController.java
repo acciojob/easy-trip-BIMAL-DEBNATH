@@ -51,7 +51,7 @@ public class AirportController {
                 largest=airportDB.get(Ar).getNoOfTerminals();
                 name=airportDB.get(Ar).getAirportName();
             } else if (airportDB.get(Ar).getNoOfTerminals()==largest){
-                if(airportDB.get(Ar).getAirportName().compareTo(name)>=0){
+                if(airportDB.get(Ar).getAirportName().compareTo(name)<0){
                     name=airportDB.get(Ar).getAirportName();
                     largest=airportDB.get(Ar).getNoOfTerminals();
                 }
@@ -93,7 +93,7 @@ public class AirportController {
 
         City city=null;
         for(String portId:airportDB.keySet()){
-            if(airportDB.get(portId).getAirportName()==airportName){
+            if(airportDB.get(portId).getAirportName().equals(airportName)){
                 city=airportDB.get(portId).getCity();
             }
         }
@@ -101,7 +101,7 @@ public class AirportController {
         for(String key:bookingDb.keySet()){
             Pair temp=bookingDb.get(key);
             if(temp.getFlight().getFromCity().equals(city) || temp.getFlight().getToCity().equals(city)){
-                if(temp.getFlight().getFlightDate()==date){
+                if(temp.getFlight().getFlightDate().equals(date)){
                     total++;
                 }
             }
